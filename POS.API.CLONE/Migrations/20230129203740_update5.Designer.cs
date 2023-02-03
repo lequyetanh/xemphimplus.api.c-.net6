@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using POS.API.CLONE.Entities;
 
@@ -11,9 +12,11 @@ using POS.API.CLONE.Entities;
 namespace POS.API.CLONE.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230129203740_update5")]
+    partial class update5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,14 +186,8 @@ namespace POS.API.CLONE.Migrations
                     b.ToTable("country");
                 });
 
-            modelBuilder.Entity("POS.API.CLONE.Entities.Movie_Entity", b =>
+            modelBuilder.Entity("POS.API.CLONE.Entities.Movie", b =>
                 {
-                    b.Property<long>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
-
                     b.Property<string>("category")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -202,6 +199,9 @@ namespace POS.API.CLONE.Migrations
                     b.Property<string>("hrefLink")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("id")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("name")
                         .IsRequired()
@@ -237,8 +237,6 @@ namespace POS.API.CLONE.Migrations
 
                     b.Property<long>("views")
                         .HasColumnType("bigint");
-
-                    b.HasKey("id");
 
                     b.ToTable("movie");
                 });

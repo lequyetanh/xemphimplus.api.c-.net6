@@ -12,6 +12,6 @@ namespace POS.API.CLONE.Entities
         public virtual DbSet<Category_Province> Category_Province { set; get; }
         public virtual DbSet<Country> Country { set; get; }
         public virtual DbSet<User_Entity> User_Object { set; get; }
-        public virtual DbSet<Movie> Movie { set; get; }
+        public virtual DbSet<Movie_Entity> Movie_Object { set; get; }
     }
 }

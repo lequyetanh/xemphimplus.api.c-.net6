@@ -9,7 +9,7 @@ namespace POS.API.CLONE.Entities
     public class User_Entity
     {
         [Key]
-        public int id { get; set; }
+        public long id { get; set; }
         public string name { get; set; }
         public string email { get; set; }
         public string password { get; set; }

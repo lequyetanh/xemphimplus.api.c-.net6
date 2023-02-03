@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using POS.API.CLONE.Entities;
 using POS.API.CLONE.IRepositories;
@@ -9,32 +8,31 @@ using System.Diagnostics.Metrics;
 
 namespace POS.API.CLONE.Controllers
 {
-    [Route("api/user")]
+    [Route("api/movie")]
     [ApiController]
-    [Authorize]
-    public class UserController : Controller
+    public class MovieController : Controller
     {
-       private readonly IConfiguration _configuration;
-        private readonly UserIRepositories _userRepositories;
+        private readonly IConfiguration _configuration;
+        private readonly MovieIRepositories _movieRepositories;
 
-        public UserController(UserIRepositories userRepositories, IConfiguration configuration)
+        public MovieController(MovieIRepositories movieRepositories, IConfiguration configuration)
         {
-            _userRepositories = userRepositories;
+            _movieRepositories = movieRepositories;
             _configuration = configuration;
         }
 
         [HttpGet("list")]
-        public async Task<IActionResult> getListUser()
+        public async Task<IActionResult> getListMovie()
         {
             try
             {
-                var user = await this._userRepositories.getListUser();
+                var movie = await this._movieRepositories.getListMovie();
 
-                return Ok(new ResponseSingleContentModel<List<User_Entity>>
+                return Ok(new ResponseSingleContentModel<List<Movie_Entity>>
                 {
                     StatusCode = 200,
                     Message = "Lấy danh sách bản ghi thành công",
-                    Data = user
+                    Data = movie
                 });
             }
             catch (Exception)
@@ -49,18 +47,17 @@ namespace POS.API.CLONE.Controllers
         }
 
         [HttpGet("detail")]
-        [AllowAnonymous]
-        public async Task<IActionResult> getUserDetail(long user_id)
+        public async Task<IActionResult> getMovieDetail(long movie_id)
         {
             try
             {
-                var user = await _userRepositories.getUserDetail(user_id);
-                System.Console.WriteLine(user);
-                return Ok(new ResponseSingleContentModel<User_Entity>
+                var movie = await _movieRepositories.getMovieDetail(movie_id);
+                System.Console.WriteLine(movie);
+                return Ok(new ResponseSingleContentModel<Movie_Entity>
                 {
                     StatusCode = 200,
                     Message = "Lấy thông tin chi tiết bản ghi thành công",
-                    Data = user
+                    Data = movie
                 });
             }
             catch (Exception error)
@@ -76,17 +73,17 @@ namespace POS.API.CLONE.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> userCreate([FromBody] User_Entity User)
+        public async Task<IActionResult> movieCreate([FromBody] Movie_Entity Movie)
         {
             try
             {
-                var user = await this._userRepositories.userCreate(User);
+                var movie = await this._movieRepositories.movieCreate(Movie);
 
-                return Ok(new ResponseSingleContentModel<User_Entity>
+                return Ok(new ResponseSingleContentModel<Movie_Entity>
                 {
                     StatusCode = 200,
                     Message = "Thêm mới bản ghi thành công",
-                    Data = User
+                    Data = Movie
                 });
             }
             catch (Exception error)
@@ -102,20 +99,21 @@ namespace POS.API.CLONE.Controllers
         }
 
         [HttpPost("modify")]
-        public async Task<IActionResult> UserModify([FromBody] User_Entity userDetail)
+        public async Task<IActionResult> MovieModify([FromBody] Movie_Entity movieDetail)
         {
             try
             {
-                var user = await this._userRepositories.userModify(userDetail);
-                return Ok(new ResponseSingleContentModel<User_Entity>
+                var movie = await this._movieRepositories.movieModify(movieDetail);
+                return Ok(new ResponseSingleContentModel<Movie_Entity>
                 {
                     StatusCode = 200,
                     Message = "Chỉnh sửa bản ghi thành công",
-                    Data = user
+                    Data = movie
                 });
             }
-            catch (Exception)
+            catch (Exception error)
             {
+                System.Console.WriteLine(error.Message);
                 return Ok(new ResponseSingleContentModel<IResponseData>
                 {
                     StatusCode = 500,
@@ -126,16 +124,16 @@ namespace POS.API.CLONE.Controllers
         }
 
         [HttpDelete("delete")]
-        public async Task<IActionResult> deleteUser(long user_id)
+        public async Task<IActionResult> deleteMovie(long movie_id)
         {
             try
             {
-                var user = await this._userRepositories.userDelete(user_id);
-                return Ok(new ResponseSingleContentModel<User_Entity>
+                var movie = await this._movieRepositories.movieDelete(movie_id);
+                return Ok(new ResponseSingleContentModel<Movie_Entity>
                 {
                     StatusCode = 200,
                     Message = "Xóa bản ghi thành công",
-                    Data = user
+                    Data = movie
                 });
             }
             catch (Exception)

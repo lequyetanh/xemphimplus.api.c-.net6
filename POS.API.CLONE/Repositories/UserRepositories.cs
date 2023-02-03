@@ -39,9 +39,9 @@ namespace POS.API.CLONE.Repositories
         {
             var userUpdate = _context.User_Object.FirstOrDefault(r => r.id == user.id);
 
-            userUpdate.name = user.name;
+            // userUpdate = user;
 
-            _context.User_Object.Update(userUpdate);
+            _context.User_Object.Update(user);
             _context.SaveChanges();
             return userUpdate;
         }
